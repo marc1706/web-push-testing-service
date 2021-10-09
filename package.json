@@ -1,5 +1,5 @@
 {
-  "name": "web-push-testing-service",
+  "name": "@marc1706/web-push-testing-service",
   "description": "A service that can be run locally or on a CLI to manage testing of web push in a language agnostic way",
   "version": "0.5.0",
   "bin": {
