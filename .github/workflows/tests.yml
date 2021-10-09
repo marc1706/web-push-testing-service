@@ -25,5 +25,7 @@ jobs:
           cache: 'npm'
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
       - run: npm install
       - run: npm test
