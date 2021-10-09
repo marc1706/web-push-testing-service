@@ -1,15 +1,8 @@
 
 <h1 align="center">Web Push Testing Service</h1>
-
 <p align="center">
-  <a href="https://travis-ci.org/GoogleChromeLabs/web-push-testing-service">
-    <img src="https://travis-ci.org/GoogleChromeLabs/web-push-testing-service.svg" alt="Travis Build Status" />
-  </a>
-  <a href="https://david-dm.org/GoogleChromeLabs/web-push-testing-service">
-    <img src="https://david-dm.org/GoogleChromeLabs/web-push-testing-service.svg" alt="NPM Dependency State" />
-  </a>
-  <a href="https://david-dm.org/GoogleChromeLabs/web-push-testing-service?type=dev">
-    <img src="https://david-dm.org/GoogleChromeLabs/web-push-testing-service/dev-status.svg" alt="NPM Dev Dependency State" />
+  <a href="https://github.com/marc1706/web-push-testing-service/actions/workflows/tests.yml">
+    <img src="https://github.com/marc1706/web-push-testing-service/actions/workflows/tests.yml/badge.svg" alt="GitHub Actions Build Status" />
   </a>
 </p>
 
@@ -26,7 +19,7 @@ available via a JSON API, simplifying the whole process.
 
 ## Install
 
-    npm install web-push-testing-service -g
+    npm install @marc1706/web-push-testing-service -g
 
 ## Usage
 
