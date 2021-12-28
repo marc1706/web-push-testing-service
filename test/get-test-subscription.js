@@ -372,11 +372,11 @@ describe('Test get-subscription API', function() {
   });
 
   browserVariants.forEach((browserVariant) => {
+    // Chrome does no longer support creating subscriptions with just sender ID
+    if (browserVariant.browser === 'chrome') {
+      return;
+    }
     it(`should be able to get a subscription from ${browserVariant.browser} - ${browserVariant.version} with no additional info`, function() {
-      // This requires starting / stopping selenium tests
-      if (process.env.TRAVIS) {
-        this.retries(3);
-      }
       this.timeout(120000);
 
       return fetch(`http://localhost:8090/api/get-subscription/`, {
@@ -388,7 +388,6 @@ describe('Test get-subscription API', function() {
           testSuiteId: globalTestSuiteId,
           browserName: browserVariant.browser,
           browserVersion: browserVariant.version,
-          vapidPublicKey: 'BA6jvk34k6YjElHQ6S0oZwmrsqHdCNajxcod6KJnI77Dagikfb--O_kYXcR2eflRz6l3PcI2r8fPCH3BElLQHDk',
         }),
       })
       .then((response) => {
@@ -401,7 +400,7 @@ describe('Test get-subscription API', function() {
               return;
             case 'unable_to_get_subscription':
               throw new Error('Unknown error from server: ' +
-                  JSON.stringify(response));
+                JSON.stringify(response));
             default:
               throw new Error('Unknown error from server: ' +
                 JSON.stringify(response));
@@ -414,7 +413,9 @@ describe('Test get-subscription API', function() {
           response.data.subscription);
       });
     });
+  });
 
+  browserVariants.forEach((browserVariant) => {
     it(`should be able to get a subscription from ${browserVariant.browser} - ${browserVariant.version} with VAPID support`, function() {
       // This requires starting / stopping selenium tests
       if (process.env.TRAVIS) {
