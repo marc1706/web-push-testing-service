@@ -266,14 +266,10 @@ class WPTS {
         };
         blinkPreferences.profile.content_settings.exceptions
           .notifications[this._apiServer.getUrl() + ',*'] = {
-            expiration: 0,
-            last_modified: 13284895479400182,
-            model: 0,
             setting: 1,
           };
 
         const options = seleniumAssistantBrowser.getSeleniumOptions();
-        options.headless();
         options.setUserPreferences(blinkPreferences);
       } else if (seleniumAssistantBrowser.getId() ===
         'firefox') {
@@ -281,7 +277,6 @@ class WPTS {
         options.setPreference('dom.push.testing.ignorePermission', true);
         options.setPreference('notification.prompt.testing', true);
         options.setPreference('notification.prompt.testing.allow', true);
-        options.headless();
       }
 
       return seleniumAssistantBrowser.getSeleniumDriver();
