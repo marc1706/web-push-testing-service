@@ -196,7 +196,7 @@ class WPTSCLI {
     console.log('       --log-file <Path>          Path and filename for logfile.');
     console.log('       --version                  Current version of CLI.');
     console.log('');
-    /* eslint-enable line-length */
+    /* eslint-enable max-len */
   }
 }
 
