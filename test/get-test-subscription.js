@@ -388,6 +388,7 @@ describe('Test get-subscription API', function() {
           testSuiteId: globalTestSuiteId,
           browserName: browserVariant.browser,
           browserVersion: browserVariant.version,
+          vapidPublicKey: 'BA6jvk34k6YjElHQ6S0oZwmrsqHdCNajxcod6KJnI77Dagikfb--O_kYXcR2eflRz6l3PcI2r8fPCH3BElLQHDk',
         }),
       })
       .then((response) => {
