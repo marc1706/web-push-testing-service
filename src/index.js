@@ -64,6 +64,10 @@ class WPTS {
     const browserDownloads = [];
     this._supportedBrowsers.forEach((browser) => {
       this._supportedBrowserVersions.forEach((version) => {
+        // Chrome version unstable is no longer supported
+        if (browser === 'chrome' && version === 'unstable') {
+          return;
+        }
         browserDownloads.push(
           seleniumAssistant.downloadLocalBrowser(browser, version, 48)
         );
