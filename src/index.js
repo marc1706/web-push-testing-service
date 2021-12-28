@@ -276,6 +276,7 @@ class WPTS {
           JSON.stringify(blinkPreferences));
 
         const options = seleniumAssistantBrowser.getSeleniumOptions();
+        options.headless();
         options.addArguments(`user-data-dir=${tempPreferenceFile}/`);
       } else if (seleniumAssistantBrowser.getId() ===
         'firefox') {
@@ -283,7 +284,9 @@ class WPTS {
         ffProfile.setPreference('dom.push.testing.ignorePermission', true);
         ffProfile.setPreference('notification.prompt.testing', true);
         ffProfile.setPreference('notification.prompt.testing.allow', true);
-        seleniumAssistantBrowser.getSeleniumOptions().setProfile(ffProfile);
+        const options = seleniumAssistantBrowser.getSeleniumOptions();
+        options.headless;
+        options.setProfile(ffProfile);
       }
 
       return seleniumAssistantBrowser.getSeleniumDriver();
