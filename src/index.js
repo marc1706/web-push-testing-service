@@ -22,7 +22,6 @@ const seleniumAssistant = require('selenium-assistant');
 const fs = require('fs');
 const del = require('del');
 const mkdirp = require('mkdirp');
-const seleniumFirefox = require('selenium-webdriver/firefox');
 
 const logHelper = require('./helper/log-helper.js');
 const APIServer = require('./server/api-server.js');
@@ -64,6 +63,10 @@ class WPTS {
     const browserDownloads = [];
     this._supportedBrowsers.forEach((browser) => {
       this._supportedBrowserVersions.forEach((version) => {
+        // Chrome version unstable is no longer supported
+        if (browser === 'chrome' && version === 'unstable') {
+          return;
+        }
         browserDownloads.push(
           seleniumAssistant.downloadLocalBrowser(browser, version, 48)
         );
@@ -277,16 +280,14 @@ class WPTS {
 
         const options = seleniumAssistantBrowser.getSeleniumOptions();
         options.headless();
-        options.addArguments(`user-data-dir=${tempPreferenceFile}/`);
+        options.setUserPreferences(blinkPreferences);
       } else if (seleniumAssistantBrowser.getId() ===
         'firefox') {
-        const ffProfile = new seleniumFirefox.Profile();
-        ffProfile.setPreference('dom.push.testing.ignorePermission', true);
-        ffProfile.setPreference('notification.prompt.testing', true);
-        ffProfile.setPreference('notification.prompt.testing.allow', true);
         const options = seleniumAssistantBrowser.getSeleniumOptions();
-        options.headless;
-        options.setProfile(ffProfile);
+        options.setPreference('dom.push.testing.ignorePermission', true);
+        options.setPreference('notification.prompt.testing', true);
+        options.setPreference('notification.prompt.testing.allow', true);
+        options.headless();
       }
 
       return seleniumAssistantBrowser.getSeleniumDriver();
