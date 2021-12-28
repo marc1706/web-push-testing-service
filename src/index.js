@@ -19,9 +19,7 @@ require('geckodriver');
 require('chromedriver');
 
 const seleniumAssistant = require('selenium-assistant');
-const fs = require('fs');
 const del = require('del');
-const mkdirp = require('mkdirp');
 
 const logHelper = require('./helper/log-helper.js');
 const APIServer = require('./server/api-server.js');
@@ -252,7 +250,6 @@ class WPTS {
   }
 
   initiateTestInstance(testSuiteId, optionalArgs, seleniumAssistantBrowser) {
-    const tempPreferenceFile = './temp/blink';
     return del('./temp')
     .then(() => {
       if (seleniumAssistantBrowser.getId() === 'chrome' ||
@@ -269,14 +266,11 @@ class WPTS {
         };
         blinkPreferences.profile.content_settings.exceptions
           .notifications[this._apiServer.getUrl() + ',*'] = {
+            expiration: 0,
+            last_modified: 13284895479400182,
+            model: 0,
             setting: 1,
           };
-
-        // Write to file
-        mkdirp.sync(`${tempPreferenceFile}/Default`);
-
-        fs.writeFileSync(`${tempPreferenceFile}/Default/Preferences`,
-          JSON.stringify(blinkPreferences));
 
         const options = seleniumAssistantBrowser.getSeleniumOptions();
         options.headless();
