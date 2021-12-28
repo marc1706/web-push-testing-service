@@ -399,7 +399,8 @@ describe('Test get-subscription API', function() {
             case 'bad_browser_support':
               return;
             case 'unable_to_get_subscription':
-              return;
+              throw new Error('Unknown error from server: ' +
+                  JSON.stringify(response));
             default:
               throw new Error('Unknown error from server: ' +
                 JSON.stringify(response));
