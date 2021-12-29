@@ -228,7 +228,7 @@ class WPTS {
           setTimeout(() => resolve(false), 500);
         });
       });
-    }, 60000)
+    }, 60000, 'Timed out after 60 seconds', 5000)
     .then(() => {
       return testInstance.executeScript(() => {
         const messages = window.PUSH_TESTING_SERVICE.receivedMessages;
