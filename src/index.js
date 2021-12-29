@@ -219,7 +219,7 @@ class WPTS {
       return testInstance.executeScript(() => {
         return window.PUSH_TESTING_SERVICE.receivedMessages.length > 0;
       });
-    }, 60000, 'Timed out acquiring received messages after 60 seconds', 5000)
+    }, 30000, 'Timed out acquiring received messages after 60 seconds', 500)
     .then(() => {
       return testInstance.executeScript(() => {
         const messages = window.PUSH_TESTING_SERVICE.receivedMessages;
@@ -327,7 +327,7 @@ class WPTS {
             return (typeof window.PUSH_TESTING_SERVICE.subscription) !==
               'undefined';
           });
-        });
+        }, 30000, 'Timed out getting subscription', 500);
       })
       .then(() => {
         return driver.executeScript(() => {
