@@ -15,9 +15,6 @@
 **/
 'use strict';
 
-require('geckodriver');
-require('chromedriver');
-
 const seleniumAssistant = require('selenium-assistant');
 const del = require('del');
 

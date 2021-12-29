@@ -22,14 +22,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm'
-      - name: Setup Chrome
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: 929513
-      - name: Setup Firefox
-        uses: browser-actions/setup-firefox@latest
-        with:
-          firefox-version: 'latest'
       - run: npm install
       - name: Run headless test
         uses: GabrielBB/xvfb-action@v1
