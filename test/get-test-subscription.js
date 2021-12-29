@@ -373,10 +373,6 @@ describe('Test get-subscription API', function() {
 
   browserVariants.forEach((browserVariant) => {
     it(`should be able to get a subscription from ${browserVariant.browser} - ${browserVariant.version} with VAPID support`, function() {
-      // This requires starting / stopping selenium tests
-      if (process.env.CI) {
-        this.retries(3);
-      }
       this.timeout(120000);
 
       return fetch(`http://localhost:8090/api/get-subscription/`, {

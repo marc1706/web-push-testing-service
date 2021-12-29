@@ -218,17 +218,8 @@ class WPTS {
     return testInstance.wait(() => {
       return testInstance.executeScript(() => {
         return window.PUSH_TESTING_SERVICE.receivedMessages.length > 0;
-      })
-      .then((isValid) => {
-        if (isValid) {
-          return true;
-        }
-
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(false), 500);
-        });
       });
-    }, 60000, 'Timed out after 60 seconds', 5000)
+    }, 60000, 'Timed out acquiring received messages after 60 seconds', 5000)
     .then(() => {
       return testInstance.executeScript(() => {
         const messages = window.PUSH_TESTING_SERVICE.receivedMessages;
