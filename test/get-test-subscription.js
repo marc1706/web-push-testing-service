@@ -372,50 +372,10 @@ describe('Test get-subscription API', function() {
   });
 
   browserVariants.forEach((browserVariant) => {
-    it(`should be able to get a subscription from ${browserVariant.browser} - ${browserVariant.version} with no additional info`, function() {
-      // This requires starting / stopping selenium tests
-      if (process.env.TRAVIS) {
-        this.retries(3);
-      }
-      this.timeout(120000);
-
-      return fetch(`http://localhost:8090/api/get-subscription/`, {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          testSuiteId: globalTestSuiteId,
-          browserName: browserVariant.browser,
-          browserVersion: browserVariant.version,
-        }),
-      })
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        if (response.error) {
-          switch (response.error.id) {
-            case 'bad_browser_support':
-              return;
-            case 'unable_to_get_subscription':
-              return;
-            default:
-              throw new Error('Unknown error from server: ' +
-                JSON.stringify(response));
-          }
-        }
-
-        validateSubscriptionResponse(response);
-
-        return sendPushMessage(globalTestSuiteId, response.data.testId,
-          response.data.subscription);
-      });
-    });
-
     it(`should be able to get a subscription from ${browserVariant.browser} - ${browserVariant.version} with VAPID support`, function() {
       // This requires starting / stopping selenium tests
-      if (process.env.TRAVIS) {
+      if (process.env.CI) {
+        console.log('Setting retries to 3');
         this.retries(3);
       }
       this.timeout(120000);

@@ -15,13 +15,8 @@
 **/
 'use strict';
 
-require('geckodriver');
-require('chromedriver');
-
 const seleniumAssistant = require('selenium-assistant');
-const fs = require('fs');
 const del = require('del');
-const mkdirp = require('mkdirp');
 
 const logHelper = require('./helper/log-helper.js');
 const APIServer = require('./server/api-server.js');
@@ -223,17 +218,8 @@ class WPTS {
     return testInstance.wait(() => {
       return testInstance.executeScript(() => {
         return window.PUSH_TESTING_SERVICE.receivedMessages.length > 0;
-      })
-      .then((isValid) => {
-        if (isValid) {
-          return true;
-        }
-
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(false), 500);
-        });
       });
-    }, 60000)
+    }, 60000, 'Timed out acquiring received messages', 500)
     .then(() => {
       return testInstance.executeScript(() => {
         const messages = window.PUSH_TESTING_SERVICE.receivedMessages;
@@ -252,7 +238,6 @@ class WPTS {
   }
 
   initiateTestInstance(testSuiteId, optionalArgs, seleniumAssistantBrowser) {
-    const tempPreferenceFile = './temp/blink';
     return del('./temp')
     .then(() => {
       if (seleniumAssistantBrowser.getId() === 'chrome' ||
@@ -272,14 +257,7 @@ class WPTS {
             setting: 1,
           };
 
-        // Write to file
-        mkdirp.sync(`${tempPreferenceFile}/Default`);
-
-        fs.writeFileSync(`${tempPreferenceFile}/Default/Preferences`,
-          JSON.stringify(blinkPreferences));
-
         const options = seleniumAssistantBrowser.getSeleniumOptions();
-        options.headless();
         options.setUserPreferences(blinkPreferences);
       } else if (seleniumAssistantBrowser.getId() ===
         'firefox') {
@@ -287,7 +265,6 @@ class WPTS {
         options.setPreference('dom.push.testing.ignorePermission', true);
         options.setPreference('notification.prompt.testing', true);
         options.setPreference('notification.prompt.testing.allow', true);
-        options.headless();
       }
 
       return seleniumAssistantBrowser.getSeleniumDriver();
@@ -350,7 +327,7 @@ class WPTS {
             return (typeof window.PUSH_TESTING_SERVICE.subscription) !==
               'undefined';
           });
-        });
+        }, 30000, 'Timed out getting subscription', 500);
       })
       .then(() => {
         return driver.executeScript(() => {
