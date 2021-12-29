@@ -219,7 +219,7 @@ class WPTS {
       return testInstance.executeScript(() => {
         return window.PUSH_TESTING_SERVICE.receivedMessages.length > 0;
       });
-    }, 30000, 'Timed out acquiring received messages after 60 seconds', 500)
+    }, 60000, 'Timed out acquiring received messages', 500)
     .then(() => {
       return testInstance.executeScript(() => {
         const messages = window.PUSH_TESTING_SERVICE.receivedMessages;

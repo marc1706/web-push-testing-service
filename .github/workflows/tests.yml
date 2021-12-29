@@ -25,5 +25,7 @@ jobs:
       - run: npm install
       - name: Run headless test
         uses: GabrielBB/xvfb-action@v1
+        env:
+          CI: 1
         with:
           run: npm test
