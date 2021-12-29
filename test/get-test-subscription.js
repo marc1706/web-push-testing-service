@@ -372,50 +372,6 @@ describe('Test get-subscription API', function() {
   });
 
   browserVariants.forEach((browserVariant) => {
-    // Chrome does no longer support creating subscriptions with just sender ID
-    if (browserVariant.browser === 'chrome') {
-      return;
-    }
-    it(`should be able to get a subscription from ${browserVariant.browser} - ${browserVariant.version} with no additional info`, function() {
-      this.timeout(120000);
-
-      return fetch(`http://localhost:8090/api/get-subscription/`, {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          testSuiteId: globalTestSuiteId,
-          browserName: browserVariant.browser,
-          browserVersion: browserVariant.version,
-        }),
-      })
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        if (response.error) {
-          switch (response.error.id) {
-            case 'bad_browser_support':
-              return;
-            case 'unable_to_get_subscription':
-              throw new Error('Unknown error from server: ' +
-                JSON.stringify(response));
-            default:
-              throw new Error('Unknown error from server: ' +
-                JSON.stringify(response));
-          }
-        }
-
-        validateSubscriptionResponse(response);
-
-        return sendPushMessage(globalTestSuiteId, response.data.testId,
-          response.data.subscription);
-      });
-    });
-  });
-
-  browserVariants.forEach((browserVariant) => {
     it(`should be able to get a subscription from ${browserVariant.browser} - ${browserVariant.version} with VAPID support`, function() {
       // This requires starting / stopping selenium tests
       if (process.env.TRAVIS) {
